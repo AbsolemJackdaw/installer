@@ -23,23 +23,24 @@ public class MainClass {
 	private static File backupTarget;
 
 	private static Date date = new Date();
-	
-	public static void main(String args[]){
-		//absolute path for source file to be copied
-		String src = System.getProperty("user.home") +"/Desktop";
-		//directory where file will be copied
-		String trgt = System.getProperty("user.home") + "/AppData/Roaming/.minecraft/mods/";
 
-		setSourceAndTarget(src, trgt);
+	public MainClass(String absoluthePath, String backUpPath, String targetPath){
+		//absolute path for source file to be copied
+		String src = absoluthePath;
+		//directory where file will be copied
+		String trgt = targetPath;
+		
+		setSourceAndTarget(src,backUpPath, trgt);
 		backUpModDirectory(target, backupTarget);
 		deleteModDirectory(target);
 		copyfiles(source, target);
+		System.exit(0);
 	}  
 
-	public static void setSourceAndTarget(String sourcePath, String targetPath){
-		File sourceFile = new File(sourcePath+"/mods/");
+	public static void setSourceAndTarget(String sourcePath, String backupPath,String targetPath){
+		File sourceFile = new File(sourcePath);
 		//creates a backup folder with a folder of the very accurate time and date of when the backup was created
-		File backUpFile = new File(sourcePath + "/minecraft_mod_backup/"+getDate()+"/");
+		File backUpFile = new File(backupPath + "/minecraft_mod_backup/"+getDate()+"/");
 		File targetFile = new File(targetPath);
 
 		source = sourceFile;
@@ -82,7 +83,7 @@ public class MainClass {
 			System.out.println("failed to create backup of old mods !! ");
 		}
 	}
-	
+
 	private static String getDate(){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 		return sdf.format(date);
